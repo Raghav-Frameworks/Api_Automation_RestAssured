@@ -9,15 +9,17 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UsersApiTests {
-
     private final ApiClient api = new ApiClient();
 
     @Test(description = "GET list users with paging", groups = {"smoke"})
     public void listUsers() {
-        Response resp = api.get("/users", null, Map.of("page", 2), null);
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("page", 2);
+        Response resp = api.get("/users", null, queryParams, null);
         resp.then().spec(ResponseSpecFactory.ok());
 
         int page = resp.jsonPath().getInt("page");
@@ -44,9 +46,13 @@ public class UsersApiTests {
 
     @Test(description = "PATCH update user", groups = {"regression"})
     public void patchUser() {
-        Map<String,Object> body = Map.of("name", "morpheus-updated");
-
-        Response resp = api.patch("/users/{id}", body, Map.of("id", 2), null, null);
+        Map<String, Object> body = new HashMap<>();
+        body.put("name", "morpheus-updated");
+        
+        Map<String, Object> pathParams = new HashMap<>();
+        pathParams.put("id", 2);
+        
+        Response resp = api.patch("/users/{id}", body, pathParams, null, null);
         resp.then().spec(ResponseSpecFactory.ok());
 
         Assert.assertEquals(resp.jsonPath().getString("name"), "morpheus-updated");
@@ -54,7 +60,9 @@ public class UsersApiTests {
 
     @Test(description = "DELETE user", groups = {"regression"})
     public void deleteUser() {
-        Response resp = api.delete("/users/{id}", Map.of("id", 2), null, null);
+        Map<String, Object> pathParams = new HashMap<>();
+        pathParams.put("id", 2);
+        Response resp = api.delete("/users/{id}", pathParams, null, null);
         resp.then().statusCode(204);
     }
 }
