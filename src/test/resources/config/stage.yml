@@ -1,0 +1,10 @@
+baseUri: "https://reqres.in"
+basePath: "/api"
+timeoutMs: 8000
+
+defaultHeaders:
+  Accept: "application/json"
+
+auth:
+  type: "bearer"
+  token: "replace-with-your-qa-token"

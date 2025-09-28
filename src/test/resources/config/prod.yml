@@ -1,0 +1,15 @@
+baseUri: "https://example.com"
+basePath: "/api"
+timeoutMs: 10000
+
+defaultHeaders:
+  Accept: "application/json"
+
+auth:
+  type: "oauth2"
+  oauth2:
+    tokenUrl: "https://example.com/oauth/token"
+    clientId: "CLIENT_ID"
+    clientSecret: "CLIENT_SECRET"
+    scope: "read write"
+    audience: ""
